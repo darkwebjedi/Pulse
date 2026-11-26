@@ -74,4 +74,3 @@ scripts/generate-covers.mjs  Regenerates the demo cover art (SVG)
 ## 4. Scripts
 
 `npm run dev` · `npm run build` · `npm run start` · `npm run typecheck`
-# Pulse
