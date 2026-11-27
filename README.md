@@ -1,6 +1,7 @@
 # Pulse — a Spotify web client
 
 Next.js 15 (App Router) · TypeScript · Tailwind CSS · Spotify Web API · Spotify Web Playback SDK.
+Built by me during my second year of BSc.
 
 Two modes, one UI:
 
@@ -74,3 +75,4 @@ scripts/generate-covers.mjs  Regenerates the demo cover art (SVG)
 ## 4. Scripts
 
 `npm run dev` · `npm run build` · `npm run start` · `npm run typecheck`
+
