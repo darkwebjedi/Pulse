@@ -1,11 +1,16 @@
 "use client";
-import { Pause, Play, SkipBack, SkipForward, Volume1, Volume2, VolumeX } from "lucide-react";
+import { Mic2, Pause, Play, SkipBack, SkipForward, Volume1, Volume2, VolumeX } from "lucide-react";
 import { useRef, useState } from "react";
 import { usePlayer } from "@/context/PlayerContext";
 import { formatTime } from "@/lib/hooks";
 import Slider from "./Slider";
 
-export default function PlayerBar() {
+interface PlayerBarProps {
+  lyricsOpen?: boolean;
+  onToggleLyrics?: () => void;
+}
+
+export default function PlayerBar({ lyricsOpen = false, onToggleLyrics }: PlayerBarProps) {
   const { track, paused, positionMs, durationMs, volume, error, engine, ready, togglePlay, seek, setVolume, nextTrack, previousTrack } =
     usePlayer();
 
@@ -40,12 +45,16 @@ export default function PlayerBar() {
       <div className="glass-strong grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-1 rounded-3xl px-4 py-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)_minmax(0,1fr)] md:gap-6">
         {/* Track info */}
         <div className="flex min-w-0 items-center gap-3">
-          <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-white/10 shadow-lg shadow-fuchsia-900/30">
+          <button
+            onClick={onToggleLyrics}
+            aria-label={lyricsOpen ? "Close lyrics" : "Open lyrics"}
+            className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-white/10 shadow-lg shadow-fuchsia-900/30 transition hover:scale-105"
+          >
             {track?.image && (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={track.image} alt="" className="h-full w-full object-cover" />
             )}
-          </div>
+          </button>
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold" data-testid="now-title">
               {track?.title ?? "Nothing playing"}
@@ -107,6 +116,14 @@ export default function PlayerBar() {
           <span className="mr-2 hidden rounded-full border border-white/10 px-2 py-0.5 text-[10px] uppercase tracking-wider text-white/40 lg:inline">
             {engine === "spotify" ? "Web Playback SDK" : "Demo · HTML5 audio"}
           </span>
+          <button
+            aria-label={lyricsOpen ? "Close lyrics" : "Show lyrics"}
+            aria-pressed={lyricsOpen}
+            onClick={onToggleLyrics}
+            className={`mr-1 rounded-full p-2 transition ${lyricsOpen ? "bg-fuchsia-500/25 text-fuchsia-200" : "text-white/70 hover:text-white"}`}
+          >
+            <Mic2 className="h-5 w-5" />
+          </button>
           <button aria-label={volume === 0 ? "Unmute" : "Mute"} onClick={toggleMute} className="text-white/70 hover:text-white">
             <VolumeIcon className="h-5 w-5" />
           </button>

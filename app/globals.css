@@ -13,15 +13,12 @@ body {
 
 body {
   @apply bg-ink-950 font-sans text-white antialiased;
-  /* Deep violet field with magenta glows, after the glassmorphism reference. */
-  background-image:
-    radial-gradient(900px 600px at 85% -10%, rgba(217, 70, 239, 0.28), transparent 60%),
-    radial-gradient(700px 600px at -5% 105%, rgba(124, 58, 237, 0.35), transparent 60%),
-    linear-gradient(180deg, #0e0820 0%, #08040f 100%);
-  background-attachment: fixed;
 }
 
 @layer components {
+  .glass-flat {
+    @apply border border-white/10 bg-black/[0.12];
+  }
   .glass {
     @apply border border-white/10 bg-white/[0.045] backdrop-blur-xl;
   }
@@ -142,6 +139,36 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .eq i,
   .animate-rise {
+    animation: none !important;
+  }
+}
+
+/* ---------- Backdrop blobs ---------- */
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  will-change: transform;
+}
+
+/* ---------- Lyrics ---------- */
+.lyric-word {
+  /* --f is driven per-frame from JS for the active line; 120% = fully lit (all other lines). */
+  --f: 120%;
+  background: linear-gradient(90deg, #fff calc(var(--f) - 14%), rgba(255, 255, 255, 0.34) var(--f));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lyrics-mask {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 80%, transparent 100%);
+}
+.lyrics-mask::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob {
     animation: none !important;
   }
 }
